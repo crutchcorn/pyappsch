@@ -13,46 +13,46 @@ pexec = ""
 
 # Add to CheckInput
 def addToCheckInput(location):
-	for filename in listdir(location):
-		appname = open(location + filename)
-		for line in appname:
-			if "Name=" in line:
-				name = line.rstrip().replace('Name=', '')
-				regex = recomp('[^a-zA-Z]')
-				nospacename = regex.sub('', name)
-			if "Exec=" in line:
-					pexec = line.rstrip().replace('Exec=', '')
-		# Create function
-		with open("checkinput.py", "a") as myfile:
-			myfile.write('	'+nospacename+'="'+name+'"\n')
-			myfile.write("	if userinput in "+nospacename+":\n")
-			myfile.write("		print('Program number: ', i)\n")
-			myfile.write("		print('Program name: "+name+"')\n")
-			myfile.write("		print('Exec command: "+pexec+"')\n")
-			myfile.write("		i=i+1\n")
-			myfile.write(r"		print('\n')")
-			myfile.write("\n")
-		print(name)
+    for filename in listdir(location):
+        appname = open(location + filename)
+        for line in appname:
+            if "Name=" in line:
+                name = line.rstrip().replace('Name=', '')
+                regex = recomp('[^a-zA-Z]')
+                nospacename = regex.sub('', name)
+            if "Exec=" in line:
+                    pexec = line.rstrip().replace('Exec=', '')
+        # Create function
+        with open("checkinput.py", "a") as myfile:
+            myfile.write('    '+nospacename+'="'+name+'"\n')
+            myfile.write("    if userinput in "+nospacename+":\n")
+            myfile.write("        print('Program number: ', i)\n")
+            myfile.write("        print('Program name: "+name+"')\n")
+            myfile.write("        print('Exec command: "+pexec+"')\n")
+            myfile.write("        i=i+1\n")
+            myfile.write(r"        print('\n')")
+            myfile.write("\n")
+        print(name)
 
 
 # This allows the second time of checkinput.py to be normal
 def generatechecknumbergen(location):
-	for filename in listdir(location):
-		appname = open(location + filename)
-		for line in appname:
-			if "Name=" in line:
-				name = line.rstrip().replace('Name=', '')
-				regex = recomp('[^a-zA-Z]')
-				nospacename = regex.sub('', name)
-			if "Exec=" in line:
-					pexec = line.rstrip().replace('Exec=', '')
-		# Create function
-		with open("checknumbergen.py", "a") as myfile:
-			myfile.write('	'+nospacename+'="'+name+'"\n')
-			myfile.write("	if userinput in "+nospacename+":\n")
-			myfile.write("		print('"+pexec+"')\n")
-			myfile.write(r"		print('\n')")
-			myfile.write("\n")
+    for filename in listdir(location):
+        appname = open(location + filename)
+        for line in appname:
+            if "Name=" in line:
+                name = line.rstrip().replace('Name=', '')
+                regex = recomp('[^a-zA-Z]')
+                nospacename = regex.sub('', name)
+            if "Exec=" in line:
+                    pexec = line.rstrip().replace('Exec=', '')
+        # Create function
+        with open("checknumbergen.py", "a") as myfile:
+            myfile.write('    '+nospacename+'="'+name+'"\n')
+            myfile.write("    if userinput in "+nospacename+":\n")
+            myfile.write("        print('"+pexec+"')\n")
+            myfile.write(r"        print('\n')")
+            myfile.write("\n")
 
 home = path.expanduser("~")
 addToCheckInput("/usr/share/applications/")
@@ -70,7 +70,7 @@ checkinput(userinput)
 
 # Generates checknumbergen.py
 with open("checknumbergen.py", "a") as myfile:
-	myfile.write('def checknumbergen(userinput):\n')
+    myfile.write('def checknumbergen(userinput):\n')
 generatechecknumbergen("/usr/share/applications/")
 generatechecknumbergen(home+"/.local/share/applications/")
 
@@ -84,28 +84,28 @@ stdout = open("/dev/stdout", "w")
 # Removes blank lines
 clean_lines = []
 with open("checkinput.py", "r") as f:
-	lines = f.readlines()
-	clean_lines = [l.strip() for l in lines if l.strip()]
+    lines = f.readlines()
+    clean_lines = [l.strip() for l in lines if l.strip()]
 with open("checkinput.py", "w") as f:
-	f.writelines('\n'.join(clean_lines))
+    f.writelines('\n'.join(clean_lines))
 
 # Closes checknumbergen.py for later use
 open('checknumbergen.py', 'w').close()
 
 with open("confirmnumber.py", "a") as myfile:
-	myfile.write("#!/usr/bin/env python3\n")
-	myfile.write("from subprocess import call\n")
-	myfile.write("def confirmNumber(userNumber):\n")
+    myfile.write("#!/usr/bin/env python3\n")
+    myfile.write("from subprocess import call\n")
+    myfile.write("def confirmNumber(userNumber):\n")
 
 numbercount = 1
 with open("checkinput.py", "r") as checkinp:
-	checkinp = checkinp.read().splitlines()
-	for line in checkinp:
-		line = line
-		with open("confirmnumber.py", "a") as checknum:
-			checknum.write('	if userNumber=="'+str(numbercount)+'":\n')
-			checknum.write('		return_code = call("'+line+'", shell=True)\n')
-		numbercount = numbercount + 1
+    checkinp = checkinp.read().splitlines()
+    for line in checkinp:
+        line = line
+        with open("confirmnumber.py", "a") as checknum:
+            checknum.write('    if userNumber=="'+str(numbercount)+'":\n')
+            checknum.write('        return_code = call("'+line+'", shell=True)\n')
+        numbercount = numbercount + 1
 
 userNumber = str(input("Pick a number to launch the program: "))
 confirmNumber(userNumber)
@@ -115,6 +115,6 @@ remove("checknumbergen.py")
 remove("confirmnumber.py")
 open('checkinput.py', 'w').close()
 with open("checkinput.py", "a") as myfile:
-	myfile.write("#!/usr/bin/env python3\n")
-	myfile.write("def checkinput(userinput):\n")
-	myfile.write("	i=1\n")
+    myfile.write("#!/usr/bin/env python3\n")
+    myfile.write("def checkinput(userinput):\n")
+    myfile.write("    i=1\n")
