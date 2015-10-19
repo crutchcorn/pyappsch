@@ -4,9 +4,6 @@ from os import listdir, path, remove
 from re import compile as recomp
 from sys import stdout
 from subprocess import call
-from confirmnumber import confirmNumber
-from checkinput import checkinput
-from checknumbergen import checknumbergen
 name = ""
 pexec = ""
 
@@ -57,6 +54,7 @@ def generatechecknumbergen(location):
 home = path.expanduser("~")
 addToCheckInput("/usr/share/applications/")
 addToCheckInput(home+"/.local/share/applications/")
+from checkinput import checkinput
 
 userinput = input("These are the programs you can launch. Pick one: ")
 
@@ -73,6 +71,7 @@ with open("checknumbergen.py", "a") as myfile:
     myfile.write('def checknumbergen(userinput):\n')
 generatechecknumbergen("/usr/share/applications/")
 generatechecknumbergen(home+"/.local/share/applications/")
+from checknumbergen import checknumbergen
 
 # Change checkinput.py to be output of checkinput(userinput)
 # THIS IS THE PROBLEM!!!!
@@ -107,6 +106,7 @@ with open("checkinput.py", "r") as checkinp:
             checknum.write('        return_code = call("'+line+'", shell=True)\n')
         numbercount = numbercount + 1
 
+from confirmnumber import confirmNumber
 userNumber = str(input("Pick a number to launch the program: "))
 confirmNumber(userNumber)
 
