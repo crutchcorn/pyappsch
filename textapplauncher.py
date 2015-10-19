@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+from subprocess import call
 from confirmnumber import confirmNumber
 from checkinput import checkinput
 from checknumbergen import checknumbergen
@@ -60,7 +61,7 @@ addToCheckInput(home+"/.local/share/applications/")
 userinput = input("These are the programs you can launch. Pick one: ")
 
 # Clears the screen, making the visibility of the new results much clearer
-os.system('clear')
+call(["clear"])
 
 print("These are some of the programs that you can use:\n")
 
