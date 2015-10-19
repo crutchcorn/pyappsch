@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Set up
-import os
-import re
-import sys
+from os import listdir, path, remove
+from re import compile as recomp
+from sys import stdout
 from subprocess import call
 from confirmnumber import confirmNumber
 from checkinput import checkinput
@@ -13,12 +13,12 @@ pexec = ""
 
 # Add to CheckInput
 def addToCheckInput(location):
-	for filename in os.listdir(location):
+	for filename in listdir(location):
 		appname = open(location + filename)
 		for line in appname:
 			if "Name=" in line:
 				name = line.rstrip().replace('Name=', '')
-				regex = re.compile('[^a-zA-Z]')
+				regex = recomp('[^a-zA-Z]')
 				nospacename = regex.sub('', name)
 			if "Exec=" in line:
 					pexec = line.rstrip().replace('Exec=', '')
@@ -37,12 +37,12 @@ def addToCheckInput(location):
 
 # This allows the second time of checkinput.py to be normal
 def generatechecknumbergen(location):
-	for filename in os.listdir(location):
+	for filename in listdir(location):
 		appname = open(location + filename)
 		for line in appname:
 			if "Name=" in line:
 				name = line.rstrip().replace('Name=', '')
-				regex = re.compile('[^a-zA-Z]')
+				regex = recomp('[^a-zA-Z]')
 				nospacename = regex.sub('', name)
 			if "Exec=" in line:
 					pexec = line.rstrip().replace('Exec=', '')
@@ -54,7 +54,7 @@ def generatechecknumbergen(location):
 			myfile.write(r"		print('\n')")
 			myfile.write("\n")
 
-home = os.path.expanduser("~")
+home = path.expanduser("~")
 addToCheckInput("/usr/share/applications/")
 addToCheckInput(home+"/.local/share/applications/")
 
@@ -76,10 +76,10 @@ generatechecknumbergen(home+"/.local/share/applications/")
 
 # Change checkinput.py to be output of checkinput(userinput)
 # THIS IS THE PROBLEM!!!!
-sys.stdout = open('checkinput.py', 'w')
+stdout = open('checkinput.py', 'w')
 checknumbergen(userinput)
-sys.stdout.close()
-sys.stdout = open("/dev/stdout", "w")
+stdout.close()
+stdout = open("/dev/stdout", "w")
 
 # Removes blank lines
 clean_lines = []
@@ -111,8 +111,8 @@ userNumber = str(input("Pick a number to launch the program: "))
 confirmNumber(userNumber)
 
 # Clear file to default
-os.remove("checknumbergen.py")
-os.remove("confirmnumber.py")
+remove("checknumbergen.py")
+remove("confirmnumber.py")
 open('checkinput.py', 'w').close()
 with open("checkinput.py", "a") as myfile:
 	myfile.write("#!/usr/bin/env python3\n")
